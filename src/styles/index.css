@@ -1,0 +1,58 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+::-webkit-scrollbar {
+    width: 2px;
+    height: 1px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Warna track */
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #888; /* Warna thumb */
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Warna thumb saat hover */
+  }
+
+.logo-app {
+    background-image: url(../assets/SolStru.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.list-icon {
+    background-image: url(../assets/list.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.check-icon {
+    background-image: url(../assets/check_small.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.image1{
+    background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Busway_in_Bundaran_HI.jpg/1200px-Busway_in_Bundaran_HI.jpg);
+}
+
+.image2{
+    background-image: url(https://media.istockphoto.com/id/2171612992/photo/team-of-male-engineer-construction-using-digital-tablet-for-discussing-of-structure-of.webp?a=1&b=1&s=612x612&w=0&k=20&c=Vn6Uquv41kYy8KCKC1wXO2rdWazzJo3LS3XYmXNOkl0=);
+}
+
+.hover-text:hover{
+    text-decoration: underline;
+}
+
+.hover-bright:hover{
+    filter: brightness(80%);
+}

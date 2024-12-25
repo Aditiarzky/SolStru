@@ -50,9 +50,11 @@
 }
 
 .hover-text:hover{
-    text-decoration: underline;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .hover-bright:hover{
-    filter: brightness(80%);
+  cursor: pointer;
+  filter: brightness(80%);
 }

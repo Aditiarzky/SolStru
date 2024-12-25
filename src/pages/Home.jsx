@@ -15,13 +15,13 @@ function Home(){
         </div>
       </section>
       <span className="w-full image1 h-80 bg-bottom rounded-3xl bg-cover bg-no-repeat"></span>
-      <section className="overflow-x-scroll w-full">
+      <section className="overflow-x-scroll w-full ">
         <div className="flex gap-1 w-fit md:w-full">
           <article className="flex justify-between p-8 bg-white w-64 h-44 rounded-3xl flex-col">
             <div className="bg-[#f8f8f8] rounded-full w-fit p-1">
               <div className="list-icon h-9 w-9"></div>
             </div>
-            <p className="text-xl">Misi Kami</p>
+            <p className="text-xl font-medium">Misi Kami</p>
           </article>
           <article className="flex justify-between p-8 bg-white w-64 h-44 rounded-3xl flex-col">
             <div className="bg-[#f8f8f8] rounded-full w-fit p-1">
@@ -52,7 +52,7 @@ function Home(){
       <section className="md:flex w-full">
         <div className="image2 bg-center rounded-3xl bg-cover w-full md:h-80 h-56"></div>
         <div className="w-full p-11 rounded-3xl h-80 flex flex-col gap-2 bg-[#f8f8f8]">
-          <h1 className="text-2xl">Visi Kami</h1>
+          <h1 className="text-2xl font-medium">Visi Kami</h1>
           <p className="text-[#5f5f5f]">Menjadi perusahaan konstruksi dan arsitektur terkemuka yang menciptakan karya berkualitas tinggi, inovatif, dan berkelanjutan untuk generasi mendatang.</p>
         </div>
       </section>

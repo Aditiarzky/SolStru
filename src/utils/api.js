@@ -103,6 +103,20 @@ async function getAllProjek() {
   }
 }
 
+async function getDetailProjek(id) {
+  try {
+    const response = await axios.get(`${baseUrl}/api/projek/${id}`);
+    const { message, success, data } = response.data;
+    if (success) {
+      return { message, success, projek: data };
+    }
+    throw new Error(message);
+  } catch (error) {
+    const message = getErrorMessage(error);
+    return { message, success: false };
+  }
+}
+
 async function getAllPesanan() {
   try {
     const response = await axios.get(`${baseUrl}/api/pesanan`);
@@ -119,6 +133,7 @@ async function getAllPesanan() {
 
 export{
     getAllProjek,
+    getDetailProjek,
     addPesanan,
     addProjek,
     editProjek,

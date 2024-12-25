@@ -16,7 +16,7 @@ function App() {
   // }, [preload, user]);
 
   return (
-    <div className='font-rubik w-full text-[#1f1f1f] flex justify-center min-h-screen px-2 bg-[#f1f2f1] tracking-tight'>
+    <div className='scroll-smooth font-rubik w-full text-[#1f1f1f] flex justify-center min-h-screen px-2 bg-[#f1f2f1] tracking-tight'>
       <RouterProvider router={routes} />
     </div>
   );

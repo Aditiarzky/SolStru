@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
-import useProjek from "../stores/useDetailProjek";
+import useDetailProjek from "../stores/useDetailProjek";
 import { Footer } from "../components/Footer";
 
 export default function Detail() {
   const { id } = useParams();
-  const { projek, fetchProjek, loading, error } = useProjek();
+  const { projek, fetchProjek, loading, error } = useDetailProjek();
 
   useEffect(() => {
     fetchProjek(id);
@@ -96,7 +96,7 @@ export default function Detail() {
               </div>
               <div className="flex justify-between">
                 <dt className="text-[#5f5f5f]">Fasilitas Pendukung</dt>
-                <dd className="break-words overflow-auto">{projek.pendukung ? projek.pendukung : "jsahvhdvhvdshvdsahvdshvhahvdsah"}</dd>
+                <dd className="break-words overflow-auto">{projek.pendukung ? projek.pendukung : "-"}</dd>
               </div>
               <div className="flex justify-between">
                 <dt className="text-[#5f5f5f]">Gaya Bangunan</dt>

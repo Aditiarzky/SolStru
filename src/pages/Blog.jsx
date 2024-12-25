@@ -3,6 +3,7 @@ import { Footer } from "../components/Footer";
 import Navbar from "../components/Navbar";
 import useProjek from "../stores/useProjek";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default Blog;
 
@@ -32,6 +33,13 @@ function Blog() {
     return (
       <div className="max-w-7xl w-full py-3 flex flex-col gap-1 min-h-dvh">
         <Navbar />
+        <motion.main
+          className="flex flex-col gap-1"
+          initial={{ opacity: 0 }} // Opacity awal
+          animate={{ opacity: 1 }} // Opacity saat animasi
+          exit={{ opacity: 0 }} // Opacity saat keluar
+          transition={{ duration: 0.5 }} // Durasi animasi
+        >
         <section className="flex flex-col items-center">
             <div className="bg-[#f8f8f8] w-[80%] h-6 rounded-t-3xl"></div>
             <div className="bg-white w-full flex items-center justify-center flex-col h-80 rounded-3xl tracking-[-2px] md:tracking-[-4px]">
@@ -45,7 +53,7 @@ function Blog() {
             <button
                 id="kons-btn"
                 onClick={() => setSelectedType("konstruksi")}
-                className={`md:text-xl hover-bright text-center w-full border border-[#5f5f5f] rounded-2xl p-1 ${
+                className={`md:text-xl hover-text hover-bright text-center w-full border border-[#5f5f5f] rounded-2xl p-1 ${
                     selectedType === "konstruksi" ? "bg-[#e2e2e2]" : "bg-white"
                 }`}
             >
@@ -54,7 +62,7 @@ function Blog() {
             <button
                 id="arsi-btn"
                 onClick={() => setSelectedType("arsitektur")}
-                className={`md:text-xl hover-bright text-center w-full border border-[#5f5f5f] rounded-2xl p-1 ${
+                className={`md:text-xl hover-text hover-bright text-center w-full border border-[#5f5f5f] rounded-2xl p-1 ${
                     selectedType === "arsitektur" ? "bg-[#e2e2e2]" : "bg-white"
                 }`}
             >
@@ -96,7 +104,7 @@ function Blog() {
                     </div>
                     <Link
                         to={`/detail/${item.pjid}`}
-                        className="bg-[#1f1f1f] hover-bright font-medium text-white rounded-xl py-2 px-4 w-fit"
+                        className="bg-[#1f1f1f] hover-text hover-bright font-medium text-white rounded-xl py-2 px-4 w-fit"
                     >
                         Lihat detail <span className="arrow">&gt;</span>
                     </Link>
@@ -105,6 +113,7 @@ function Blog() {
               ))
             }
         </section>
+        </motion.main>
         <Footer />
       </div>
     );

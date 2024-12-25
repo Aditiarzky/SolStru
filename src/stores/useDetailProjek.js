@@ -2,7 +2,7 @@ import { create} from 'zustand';
 import getErrorMessage from '../utils/error';
 import { getDetailProjek } from '../utils/api';
 
-const useProjek = create((set) => ({
+const useDetailProjek = create((set) => ({
     projek: null,
     loading: false,
     fetchProjek: async (id) => {
@@ -24,4 +24,4 @@ const useProjek = create((set) => ({
     },
   }));
   
-  export default useProjek;
+  export default useDetailProjek;

@@ -3,11 +3,15 @@ import Home from '../pages/Home';
 import Admin from '../pages/Admin';
 import Blog from '../pages/Blog';
 import Detail from '../pages/Detail';
+import Lokasi from '../pages/Lokasi';
+import Pesanan from '../pages/Pesanan';
 
 export const HOME_PAGE = '/';
 export const ADMIN_PAGE = '/admin';
 export const DETAIl_PAGE = '/detail/:id';
 export const BLOG_PAGE = '/blog';
+export const LOKASI_PAGE = '/lokasi';
+export const PESANAN_PAGE = '/pesanan';
 
 export const routes = createHashRouter(
   [
@@ -26,6 +30,14 @@ export const routes = createHashRouter(
     {
       path: DETAIl_PAGE,
       Component: Detail,
+    },
+    {
+      path: LOKASI_PAGE,
+      Component: Lokasi,
+    },
+    {
+      path: PESANAN_PAGE,
+      Component: Pesanan,
     },
   ],
   {

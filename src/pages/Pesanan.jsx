@@ -6,36 +6,37 @@ export default Pesanan;
 
 function Pesanan() {
 
-  const { addPesanan, loading } = useAddPesanan();
+    const { addPesanan, loading } = useAddPesanan();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-  
-    // Ambil data dari form
-    const formData = new FormData(e.target);
-    const data = {
-      nama_ps: formData.get("nama_ps"),
-      alamat_ps: formData.get("alamat_ps"),
-      email: formData.get("email"),
-      jlayanan_ps: formData.get("jlayanan_ps"),
-      status_pesan: "pending",
+    const handleSubmit = async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(e.target);
+      const data = {
+        nama_ps: formData.get("nama_ps"),
+        alamat_ps: formData.get("alamat_ps"),
+        email: formData.get("email"),
+        jlayanan_ps: formData.get("jlayanan_ps"),
+        status_pesan: "pending",
+      };
+    
+      if (!data.jlayanan_ps) {
+        alert("Pilih layanan yang diinginkan.");
+        return;
+      }
+    
+      const confirm = window.confirm(
+        "Data ini akan dikirim langsung kepada admin. Apakah Anda ingin melanjutkan?"
+      );
+    
+      if (confirm) {
+        await addPesanan(data); 
+        form.reset();
+      } else {
+        alert("Pengiriman dibatalkan."); 
+      }
     };
-  
-    if (!data.jlayanan_ps) {
-      alert("Pilih layanan yang diinginkan.");
-      return;
-    }
-  
-    const confirm = window.confirm(
-      "Data ini akan dikirim langsung kepada admin. Apakah Anda ingin melanjutkan?"
-    );
-  
-    if (confirm) {
-      await addPesanan(data); // Kirim data ke API jika pengguna menyetujui
-    } else {
-      alert("Pengiriman dibatalkan."); // Beri umpan balik jika dibatalkan
-    }
-  };
+
 
     return (
       <div className="max-w-7xl w-full py-3 flex flex-col gap-1 min-h-dvh">

@@ -11,6 +11,7 @@ function Blog() {
     const { projek, fetchProjek, loading, error } = useProjek();
     const [filteredProjek, setFilteredProjek] = useState([]);
     const [selectedType, setSelectedType] = useState("konstruksi");
+    const [visibleCount, setVisibleCount] = useState(5);   
 
     useEffect(() => {
       fetchProjek();
@@ -29,16 +30,17 @@ function Blog() {
       return <div>Error: {error}</div>; 
     }
 
+    const visibleProjek = filteredProjek.slice(0, visibleCount);
   
     return (
       <div className="max-w-7xl w-full py-3 flex flex-col gap-1 min-h-dvh">
         <Navbar />
         <motion.main
           className="flex flex-col gap-1"
-          initial={{ opacity: 0 }} // Opacity awal
-          animate={{ opacity: 1 }} // Opacity saat animasi
-          exit={{ opacity: 0 }} // Opacity saat keluar
-          transition={{ duration: 0.5 }} // Durasi animasi
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          exit={{ opacity: 0 }} 
+          transition={{ duration: 0.5 }}
         >
         <section className="flex flex-col items-center">
             <div className="bg-[#f8f8f8] w-[80%] h-6 rounded-t-3xl"></div>
@@ -69,11 +71,9 @@ function Blog() {
                 Desain Arsitektur
             </button>
         </section>
-        <section className="md:flex w-full flex-wrap gap-4 mt-4">
+        <section className="flex w-full flex-wrap gap-2 md:gap-4 mt-4">
           {loading
-            ? Array(4)
-                .fill(0)
-                .map((_, index) => (
+            ? Array(5).fill(0).map((_, index) => (
                   <div
                     key={index}
                     className="animate-pulse flex w-full md:h-80 h-56 bg-gray-200 rounded-3xl"
@@ -86,11 +86,11 @@ function Blog() {
                     </div>
                   </div>
                 ))
-            : filteredProjek.length === 0 ? (
+            : visibleProjek.length === 0 ? (
                 <div className="w-full text-center p-4 text-lg">
                     Tidak ada data
                 </div>)
-            : filteredProjek.map((item, index) => (
+            : visibleProjek.map((item, index) => (
                 <div key={index} className="md:flex w-full hover-bright">
                   <div
                     className="image2 bg-center md:rounded-l-3xl md:rounded-r-none rounded-t-3xl bg-cover w-full md:h-80 h-56"
@@ -112,6 +112,14 @@ function Blog() {
                 </div>
               ))
             }
+            {visibleCount < filteredProjek.length && (
+              <button
+                onClick={() => setVisibleCount((prev) => prev + 5)}
+                className="mt-4 px-4 w-full py-2 bg-[#5f5f5f] text-white rounded-lg"
+              >
+                Lihat Lebih Banyak
+              </button>
+            )}
         </section>
         </motion.main>
         <Footer />

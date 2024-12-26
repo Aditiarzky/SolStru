@@ -22,9 +22,9 @@ function Home(){
           </div>
         </section>
         <span className="w-full image1 h-64 md:h-80 bg-bottom rounded-3xl bg-cover bg-no-repeat"></span>
-        <section className="overflow-x-scroll w-full ">
+        <section className="overflow-x-scroll w-full snap-x">
           <div className="flex gap-1 w-fit md:w-full">
-            <article className="flex justify-between p-8 bg-white w-48 md:w-64 h-44 rounded-3xl flex-col">
+            <article className="flex justify-between p-8 snap-center bg-white w-48 md:w-64 h-44 rounded-3xl flex-col">
               <div className="bg-[#f8f8f8] rounded-full w-fit p-1">
                 <div className="list-icon h-9 w-9"></div>
               </div>

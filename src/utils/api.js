@@ -46,9 +46,22 @@ async function deleteProjek(id) {
   }
 }
 
-async function editProjek(editProjekData) {
+async function editProjek(editProjekData, pjid) {
   try {
-    const response = await axios.put(`${baseUrl}/api/projek`, editProjekData);
+    const response = await axios.put(`${baseUrl}/api/pesanan/${pjid}`, editProjekData);
+    const { message, success } = response.data;
+    if (success) {
+      return { message, success };
+    }
+    throw new Error(message);
+  } catch (error) {
+    const message = getErrorMessage(error);
+    return { message, success: false };
+  }
+}
+async function editPesanan(editPesananData, psid) {
+  try {
+    const response = await axios.put(`${baseUrl}/api/pesanan/${psid}`, editPesananData);
     const { message, success } = response.data;
     if (success) {
       return { message, success };
@@ -120,9 +133,9 @@ async function getDetailProjek(id) {
 async function getAllPesanan() {
   try {
     const response = await axios.get(`${baseUrl}/api/pesanan`);
-    const { message, success, pesananData } = response.data;
+    const { message, success, data } = response.data;
     if (success) {
-      return { message, success, pesanan: pesananData };
+      return { message, success, pesanan: data };
     }
     throw new Error(message);
   } catch (error) {
@@ -137,6 +150,7 @@ export{
     addPesanan,
     addProjek,
     editProjek,
+    editPesanan,
     deletePesanan,
     deleteProjek,
     getAllPesanan,

@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 export default Blog;
 
 function Blog() {
-    const { projek, fetchProjek, loading, error } = useProjek();
+    const { projek, fetchProjek, fetchLoading, error } = useProjek();
     const [filteredProjek, setFilteredProjek] = useState([]);
     const [selectedType, setSelectedType] = useState("konstruksi");
     const [visibleCount, setVisibleCount] = useState(5);   
@@ -25,10 +25,6 @@ function Blog() {
         setFilteredProjek(filtered);
       }
     }, [projek, selectedType]);
-  
-    if (error) {
-      return <div>Error: {error}</div>; 
-    }
 
     const visibleProjek = filteredProjek.slice(0, visibleCount);
   
@@ -71,8 +67,9 @@ function Blog() {
                 Desain Arsitektur
             </button>
         </section>
+        {error? (<div>Error: {error}</div>):(
         <section className="flex w-full flex-wrap gap-2 md:gap-4 mt-4">
-          {loading
+          {fetchLoading
             ? Array(5).fill(0).map((_, index) => (
                   <div
                     key={index}
@@ -121,6 +118,7 @@ function Blog() {
               </button>
             )}
         </section>
+        )}
         </motion.main>
         <Footer />
       </div>

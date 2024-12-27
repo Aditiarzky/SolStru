@@ -4,10 +4,13 @@ import { addProjek, deleteProjek, editProjek, getAllProjek } from '../utils/api'
 
 const useProjek = create((set) => ({
     projek: [],
+    fetchLoading: false,
+    delLoading: false,
     loading: false,
+    error: null,
     fetchProjek: async () => {
       try {
-        set(() => ({ loading: true }));
+        set(() => ({ fetchLoading: true }));
         const { success, message, projek } = await getAllProjek();
         if (!success) {
           throw new Error(message);
@@ -18,11 +21,11 @@ const useProjek = create((set) => ({
         const message = getErrorMessage(error);
         return { message, success: false };
       } finally {
-        set(() => ({ loading: false }));
+        set(() => ({ fetchLoading: false }));
       }
     },
     delProjek: async (id) => {
-      set({ loading: true, success: false, error: null });
+      set({ delLoading: true, success: false, error: null });
       try {
         const { success, message } = await deleteProjek(id);
         if (success) {
@@ -37,7 +40,7 @@ const useProjek = create((set) => ({
         set({ success: false, error: errorMessage });
         alert(`Error: ${errorMessage}`);
       } finally {
-        set({ loading: false });
+        set({ delLoading: false });
       }
     },
     addProjek: async (projekData) => {

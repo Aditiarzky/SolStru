@@ -41,6 +41,13 @@
     background-repeat: no-repeat;
 }
 
+.nogambar {
+    background-image: url(../assets/nogambar.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
 .image1{
     background-image: url(https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Busway_in_Bundaran_HI.jpg/1200px-Busway_in_Bundaran_HI.jpg);
 }

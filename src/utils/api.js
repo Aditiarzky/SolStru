@@ -1,23 +1,34 @@
 import axios from 'axios';
 import getErrorMessage from './error';
+import Cookies from 'js-cookie';
 
 const baseUrl = 'https://sol-stru-server.vercel.app';
 
+export const setAuthToken = (token) => {
+  Cookies.set('token', token, { expires: 7, secure: true }); // Simpan token selama 7 hari
+};
+
+export const getAuthToken = () => Cookies.get('token'); // Ambil token dari cookie
+
+export const removeAuthToken = () => {
+  Cookies.remove('token'); // Hapus token dari cookie
+};
 
 async function login(loginData) {
-    try {
-      const response = await axios.post(`${baseUrl}/api/auth/login`, loginData);
-      const { message, success, data } = response.data;
-      if (success) {
-        return { message, success, token: data.token };
-      }
-      throw new Error(message);
-    } catch (error) {
-      const message = getErrorMessage(error);
-      return { message, success: false };
+  try {
+    const response = await axios.post(`${baseUrl}/api/auth/login`, loginData);
+    const { message, success, datatoken } = response.data;
+    if (success) {
+      setAuthToken(datatoken); // Simpan token di cookie
+      return { message, success, token: datatoken };
     }
+    throw new Error(message);
+  } catch (error) {
+    const message = error.response?.data?.message || error.message;
+    return { message, success: false };
   }
-
+}
+  
 async function addProjek(addProjekData) {
   try {
     const response = await axios.post(`${baseUrl}/api/projek`, addProjekData);
@@ -48,7 +59,7 @@ async function deleteProjek(id) {
 
 async function editProjek(editProjekData, pjid) {
   try {
-    const response = await axios.put(`${baseUrl}/api/pesanan/${pjid}`, editProjekData);
+    const response = await axios.put(`${baseUrl}/api/projek/${pjid}`, editProjekData);
     const { message, success } = response.data;
     if (success) {
       return { message, success };

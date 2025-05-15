@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { addPesanan, editPesanan } from '../utils/api';
 import getErrorMessage from '../utils/error';
+import { toast } from 'react-toastify';
 
 const useAddPesanan = create((set) => ({
   loading: false,
@@ -12,15 +13,15 @@ const useAddPesanan = create((set) => ({
       const { success, message } = await addPesanan(pesananData);
       if (success) {
         set({ success: true, error: null });
-        alert('Berhasil mengirim pesanan'); 
+        toast.success('Berhasil mengirim pesanan'); 
       } else {
         set({ success: false, error: message });
-        alert(`Gagal: ${message}`);
+        toast.error(`Gagal: ${message}`);
       }
     } catch (error) {
       const errorMessage = getErrorMessage(error);
       set({ success: false, error: errorMessage });
-      alert(`Error: ${errorMessage}`);
+      toast.error(`Error: ${errorMessage}`);
     } finally {
       set({ loading: false });
     }
@@ -31,15 +32,15 @@ const useAddPesanan = create((set) => ({
       const { success, message } = await editPesanan(editPesananData, psid);
       if (success) {
         set({ success: true, error: null });
-        alert('Berhasil mengubah status pesanan'); 
+        toast.success('Berhasil mengubah status pesanan'); 
       } else {
         set({ success: false, error: message });
-        alert(`Gagal: ${message}`);
+        toast.error(`Gagal: ${message}`);
       }
     } catch (error) {
       const errorMessage = getErrorMessage(error);
       set({ success: false, error: errorMessage });
-      alert(`Error: ${errorMessage}`);
+      toast.error(`Error: ${errorMessage}`);
     } finally {
       set({ loading: false });
     }

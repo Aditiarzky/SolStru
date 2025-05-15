@@ -1,6 +1,7 @@
 import { create} from 'zustand';
 import getErrorMessage from '../utils/error';
 import { addProjek, deleteProjek, editProjek, getAllProjek } from '../utils/api';
+import { toast } from 'react-toastify';
 
 const useProjek = create((set) => ({
     projek: [],
@@ -30,15 +31,15 @@ const useProjek = create((set) => ({
         const { success, message } = await deleteProjek(id);
         if (success) {
           set({ success: true, error: null });
-          alert('Berhasil menghapus Projek'); 
+          toast.success('Berhasil menghapus Projek'); 
         } else {
           set({ success: false, error: message });
-          alert(`Gagal: ${message}`);
+          toast.error(`Gagal: ${message}`);
         }
       } catch (error) {
         const errorMessage = getErrorMessage(error);
         set({ success: false, error: errorMessage });
-        alert(`Error: ${errorMessage}`);
+        toast.error(`Error: ${errorMessage}`);
       } finally {
         set({ delLoading: false });
       }
@@ -49,15 +50,15 @@ const useProjek = create((set) => ({
         const { success, message } = await addProjek(projekData);
         if (success) {
           set({ success: true, error: null });
-          alert('Berhasil menambahkan projek'); 
+          toast.success('Berhasil menambahkan projek'); 
         } else {
           set({ success: false, error: message });
-          alert(`Gagal: ${message}`);
+          toast.error(`Gagal: ${message}`);
         }
       } catch (error) {
         const errorMessage = getErrorMessage(error);
         set({ success: false, error: errorMessage });
-        alert(`Error: ${errorMessage}`);
+        toast.error(`Error: ${errorMessage}`);
       } finally {
         set({ loading: false });
       }
@@ -68,15 +69,15 @@ const useProjek = create((set) => ({
         const { success, message } = await editProjek(editProjekData, pjid);
         if (success) {
           set({ success: true, error: null });
-          alert('Berhasil mengubah projek'); 
+          toast.success('Berhasil mengubah projek'); 
         } else {
           set({ success: false, error: message });
-          alert(`Gagal: ${message}`);
+          toast.error(`Gagal: ${message}`);
         }
       } catch (error) {
         const errorMessage = getErrorMessage(error);
         set({ success: false, error: errorMessage });
-        alert(`Error: ${errorMessage}`);
+        toast.error(`Error: ${errorMessage}`);
       } finally {
         set({ loading: false });
       }

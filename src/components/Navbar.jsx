@@ -1,7 +1,7 @@
 import React from 'react'
 import LogoApp from '../assets/SolStru.svg'
 import { Link } from 'react-router-dom'
-import { BLOG_PAGE, HOME_PAGE, LOKASI_PAGE, PESANAN_PAGE } from '../routes/routeConstant'
+import { BLOG_PAGE, HOME_PAGE, LOGIN_PAGE, LOKASI_PAGE, PESANAN_PAGE } from '../routes/routeConstant'
 
 const Navbar = () => {
   return (
@@ -15,7 +15,7 @@ const Navbar = () => {
             <li className='hover-text'><Link to={LOKASI_PAGE}>Lokasi</Link></li>
             <li className='hover-text'><Link to={PESANAN_PAGE}>Pesanan</Link></li>
             <li className='bg-[#1f1f1f] hover-bright text-white rounded-xl py-2 px-4'>
-              <Link to={`${PESANAN_PAGE}/#form`}>Hubungi</Link>
+              <Link to={`${LOGIN_PAGE}/#form`}>Login/Daftar</Link>
             </li>
         </ul>
     </nav>

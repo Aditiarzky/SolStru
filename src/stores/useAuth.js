@@ -1,48 +1,132 @@
 import { create } from 'zustand';
-import { login, getAuthToken, removeAuthToken } from '../utils/api';
+import { login, logout, getStatusAuth, getUserAuth, getRefreshToken, register} from '../utils/api';
+import { toast } from 'react-toastify';
+import getErrorMessage from '../utils/error';
+import axios from 'axios'; 
+
 
 const useAuth = create((set) => ({
-  token: null,
-  isAuthenticated: false,
+  dataUser: null,
   loading: false,
-  success: false,
-  error: null,
-
-  // Login action
+  isAuthenticated: false,
+  isTokenRefreshed: false,
+  
   login: async (credentials) => {
-    set({ loading: true, error: null });
+    const createToast = toast.loading('Login process...');
     try {
-      const { success, token, message } = await login(credentials);
+      set(() => ({ loading: true }));
+      const { success, message, role } = await login(credentials);
+      if (!success) throw new Error(message);
+
+      toast.update(createToast, {
+        position: 'top-right',
+        render: 'Login successfully',
+        type: 'success',
+        isLoading: false,
+        autoClose: 3000,
+      });
+
+      set(() => ({ isAuthenticated: true }));
+      return { success, message, role };
+    } catch (error) {
+      const message = getErrorMessage(error);
+      toast.update(createToast, {
+        position: 'top-right',
+        render: message,
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000,
+      });
+      return { success: false, message };
+    } finally {
+      set(() => ({ loading: false }));
+    }
+  },
+
+  logout: async () => {
+    try {
+      set(() => ({ loading: true }));
+      const { success, message } = await logout();
+      if (!success) throw new Error(message);
+
+      toast.success(message, { position: 'top-right' });
+      set(() => ({ isAuthenticated: false, dataUser: null }));
+      return { message, success };
+    } catch (error) {
+      const message = getErrorMessage(error);
+      toast.error(message, { position: 'top-right' });
+      return { success: false, message };
+    } finally {
+      set(() => ({ loading: false }));
+    }
+  },
+
+  register: async (registerData) => {
+    set({ loading: true, success: false, error: null });
+    try {
+      const { success, message } = await register(registerData);
       if (success) {
-        set({ token, isAuthenticated: true, success, error: null });
-        alert('Login berhasil');
+        set({ success: true, error: null });
+        toast.success('Berhasil menambahkan projek'); 
       } else {
-        set({ token: null, isAuthenticated: false, error: message });
-        alert(`Login gagal: ${message}`);
+        set({ success: false, error: message });
+        toast.error(`Gagal: ${message}`);
       }
     } catch (error) {
-      set({ token: null, isAuthenticated: false, error: error.message });
-      alert(`Error: ${error.message}`);
+      const errorMessage = getErrorMessage(error);
+      set({ success: false, error: errorMessage });
+      toast.error(`Error: ${errorMessage}`);
     } finally {
       set({ loading: false });
     }
   },
 
-  // Logout action
-  logout: () => {
-    removeAuthToken(); // Hapus token dari cookie
-    set({ token: null, isAuthenticated: false, error: null });
-  },
-
-  // Check authentication
-  checkAuth: () => {
-    const token = getAuthToken(); // Ambil token dari cookie
-    if (token) {
-      set({ token, isAuthenticated: true });
-    } else {
-      set({ token: null, isAuthenticated: false });
+  refreshToken: async () => {
+    try {
+      set(() => ({ loading: true }));
+      const { success, message } = await getRefreshToken();
+      if (!success) throw new Error(message);
+      set(() => ({ isTokenRefreshed: success, isAuthenticated: success }));
+      return { message, success };
+    } catch (error) {
+      const message = getErrorMessage(error);
+      toast.error(message, { position: 'top-right' });
+      return { success: false, message };
+    } finally {
+      set(() => ({ loading: false }));
     }
   },
+
+  checkAuth: async () => {
+    try {
+      set(() => ({ loading: true }));
+      const { success } = await getStatusAuth();
+      set(() => ({ isAuthenticated: success }));
+      return success; 
+    } catch {
+      set(() => ({ isAuthenticated: false }));
+      return false;
+    } finally {
+      set(() => ({ loading: false }));
+    }
+  },
+  
+  userAuth: async () => {
+    try {
+      set(() => ({ loading: true }));
+      const response = await getUserAuth();
+      if (!response.success) throw new Error(response.message);
+
+      set(() => ({ dataUser: response.data }));
+      return { success: true, data: response.data };
+    } catch (error) {
+      const message = getErrorMessage(error);
+      toast.error(message, { position: 'top-right' });
+      return { success: false, message };
+    } finally {
+      set(() => ({ loading: false }));
+    }
+  }
 }));
 
 export default useAuth;

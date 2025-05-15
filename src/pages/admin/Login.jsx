@@ -3,16 +3,15 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import useAuth from '../../stores/useAuth';
 
 export default function Login() {
-  const [credentials, setCredentials] = useState({ username: "", password: "" });
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
   const navigate = useNavigate();
   const { login, loading, isAuthenticated, checkAuth } = useAuth();
 
   useEffect(() => {
-    checkAuth(); // Periksa autentikasi saat komponen dimuat
-    if (isAuthenticated) {
-      navigate('/admin', { replace: true }); // Navigasi jika sudah login
-    }
-  }, [isAuthenticated, navigate, checkAuth]);
+    (async () => {
+      await checkAuth();
+    })();
+  }, [checkAuth]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,7 +20,10 @@ export default function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await login(credentials); // Panggil fungsi login dari store
+    const result = await login(credentials);
+    if (result.success) {
+      navigate('/admin', { replace: true });
+    }
   };
 
   if (isAuthenticated) {
@@ -36,11 +38,11 @@ export default function Login() {
       >
         <h1 className="text-2xl font-bold mb-6 text-center">Admin Login</h1>
         <div className="mb-4">
-          <label className="block mb-2 text-sm font-medium text-gray-600">Username</label>
+          <label className="block mb-2 text-sm font-medium text-gray-600">Email</label>
           <input
-            type="text"
-            name="username"
-            value={credentials.username}
+            type="email"
+            name="email"
+            value={credentials.email}
             onChange={handleChange}
             className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
           />

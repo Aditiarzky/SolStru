@@ -1,6 +1,7 @@
 import { create} from 'zustand';
 import getErrorMessage from '../utils/error';
 import { deletePesanan, getAllPesanan} from '../utils/api';
+import { toast } from 'react-toastify';
 
 const usePesanan = create((set) => ({
     pesanan: [],
@@ -13,7 +14,7 @@ const usePesanan = create((set) => ({
           throw new Error(message);
         }
         set(() => ({ pesanan }));
-        return { message, success: true };
+        return { message, success: true, pesanan};
       } catch (error) {
         const message = getErrorMessage(error);
         return { message, success: false };
@@ -27,10 +28,10 @@ const usePesanan = create((set) => ({
         const { success, message } = await deletePesanan(id);
         if (success) {
           set({ success: true, error: null });
-          alert('Berhasil menghapus pesanan'); 
+          toast.success('Berhasil menghapus pesanan'); 
         } else {
           set({ success: false, error: message });
-          alert(`Gagal: ${message}`);
+          toast.error(`Gagal: ${message}`);
         }
       } catch (error) {
         const errorMessage = getErrorMessage(error);

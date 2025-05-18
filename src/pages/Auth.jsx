@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../stores/useAuth";
 
 import { Button } from "../components/ui/button";
@@ -152,6 +152,11 @@ export default function AuthForm() {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Sedang masuk..." : "Masuk"}
                 </Button>
+                <Link to="/">
+                  <Button variant="outline" className="w-full mt-2">
+                    Kembali
+                  </Button>
+                </Link>
               </form>
             </TabsContent>
 
@@ -244,6 +249,11 @@ export default function AuthForm() {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Sedang mendaftar..." : "Daftar"}
                 </Button>
+                <Link to="/">
+                  <Button variant="outline" className="w-full mt-2">
+                    Kembali
+                  </Button>
+                </Link>
               </form>
             </TabsContent>
           </CardContent>

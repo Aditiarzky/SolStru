@@ -13,7 +13,7 @@ export default function Detail() {
   }, [id, fetchProjek]);
   if (error) {
     return (
-      <div className="flex flex-col min-h-screen justify-center items-center">
+      <div className="flex flex-col min-h-screen px-2 justify-center items-center">
         <p className="text-lg text-red-500">Error: {error}</p>
       </div>
     );

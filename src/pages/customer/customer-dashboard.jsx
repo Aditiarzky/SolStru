@@ -1,33 +1,33 @@
-import { useState } from "react"
-import { Bell, Package, User, Menu, LogOut } from "lucide-react"
-import { Button } from "../../components/ui/button"
-import { Badge } from "../../components/ui/badge"
-import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
-import { Sheet, SheetContent, SheetTrigger } from "../../components/ui/sheet"
-import { Tabs, TabsList, TabsTrigger } from "../../components/ui/tabs"
-import { OrderNotifications } from "./order-notifications"
-import { OrderManagement } from "./order-management"
-import { CustomerProfile } from "./customer-profile"
-import useAuth from "../../stores/useAuth"
-import useNotification from "../../stores/useNotification"
-import { useNavigate } from "react-router-dom"
-import { LOGIN_PAGE } from "../../routes/routeConstant"
+import { useState } from "react";
+import { Bell, Package, User, Menu, LogOut, Plus } from "lucide-react";
+import { Button } from "../../components/ui/button";
+import { Badge } from "../../components/ui/badge";
+import { Sheet, SheetContent, SheetTrigger } from "../../components/ui/sheet";
+import { Tabs, TabsList, TabsTrigger } from "../../components/ui/tabs";
+import { OrderNotifications } from "./order-notifications";
+import { OrderManagement } from "./order-management";
+import { CustomerProfile } from "./customer-profile";
+import useAuth from "../../stores/useAuth";
+import useNotification from "../../stores/useNotification";
+import { useNavigate } from "react-router-dom";
+import { FORMORDER_PAGE, LOGIN_PAGE } from "../../routes/routeConstant";
 
 export function CustomerDashboard() {
-  const [activeTab, setActiveTab] = useState("notifications")
-  const {dataUser, logout} = useAuth();
-  const {notifications} = useNotification();
+  const [activeTab, setActiveTab] = useState("notifications");
+  const { dataUser, logout } = useAuth();
+  const { notifications } = useNotification();
   const navigate = useNavigate();
-  const countOfReaded = notifications.filter(n => !n.dibaca).length;
+  const countOfReaded = notifications.filter((n) => !n.dibaca).length;
+
   if (dataUser === null) navigate(LOGIN_PAGE, { replace: true });
 
   return (
     <div className="min-h-screen w-full bg-background">
       {/* Mobile Header */}
       <div className="flex items-center justify-between p-4 border-b md:hidden">
-        <div className="flex items-center gap-2">
-          <Package className="h-5 w-5" />
-          <span className="font-semibold">Dashboard</span>
+        <div className="flex flex-col items-start">
+          <div className='logo-app h-9 w-24'></div>
+          <span className="font-light text-sm font-serif">Dashboard</span>
         </div>
         <Sheet>
           <SheetTrigger asChild>
@@ -46,9 +46,9 @@ export function CustomerDashboard() {
         {/* Desktop Sidebar */}
         <aside className="hidden md:flex w-64 flex-col border-r h-screen sticky top-0">
           <div className="p-4 border-b">
-            <div className="flex items-center gap-2">
-              <Package className="h-5 w-5" />
-              <span className="font-semibold">Dashboard</span>
+            <div className="flex flex-col items-start">
+              <div className='logo-app h-9 w-24'></div>
+              <span className="font-light text-sm font-serif">Dashboard</span>
             </div>
           </div>
           <nav className="flex-1 p-4 space-y-2">
@@ -77,6 +77,14 @@ export function CustomerDashboard() {
               <User className="mr-2 h-4 w-4" />
               Profile
             </Button>
+            <Button
+              variant="ghost"
+              className="w-full justify-start"
+              onClick={() => navigate(FORMORDER_PAGE)}
+            >
+              <Plus className="mr-2 h-4 w-4" />
+              Ajukan Pesanan
+            </Button>
           </nav>
           <div className="p-4 border-t">
             <div className="flex items-center gap-3 justify-between">
@@ -85,7 +93,7 @@ export function CustomerDashboard() {
                 <p className="text-xs text-muted-foreground">{dataUser.email}</p>
               </div>
               <button className="hover:bg-gray-100 rounded p-1 text-red-500" onClick={logout}>
-                <LogOut/>
+                <LogOut />
               </button>
             </div>
           </div>
@@ -122,22 +130,23 @@ export function CustomerDashboard() {
         </main>
       </div>
     </div>
-  )
+  );
 }
 
 function MobileSidebar({ activeTab, setActiveTab }) {
-  const {dataUser, logout} = useAuth();
-  const {notifications} = useNotification();
+  const { dataUser, logout } = useAuth();
+  const { notifications } = useNotification();
   const navigate = useNavigate();
-  const countOfReaded = notifications.filter(n => !n.dibaca).length;
+  const countOfReaded = notifications.filter((n) => !n.dibaca).length;
+
   if (dataUser === null) navigate(LOGIN_PAGE, { replace: true });
-  
+
   return (
     <div className="flex flex-col h-full">
       <div className="p-4 border-b">
-        <div className="flex items-center gap-2">
-          <Package className="h-5 w-5" />
-          <span className="font-semibold">Dashboard</span>
+        <div className="flex flex-col items-start">
+          <div className='logo-app h-9 w-24'></div>
+          <span className="font-light text-sm font-serif">Dashboard</span>
         </div>
       </div>
       <nav className="flex-1 p-4 space-y-2">
@@ -166,6 +175,14 @@ function MobileSidebar({ activeTab, setActiveTab }) {
           <User className="mr-2 h-4 w-4" />
           Profile
         </Button>
+        <Button
+          variant="ghost"
+          className="w-full justify-start"
+          onClick={() => navigate(FORMORDER_PAGE)}
+        >
+          <Plus className="mr-2 h-4 w-4" />
+          Ajukan Pesanan
+        </Button>
       </nav>
       <div className="p-4 border-t flex justify-between">
         <div className="flex items-center gap-3">
@@ -175,9 +192,9 @@ function MobileSidebar({ activeTab, setActiveTab }) {
           </div>
         </div>
         <button className="hover:bg-gray-100 rounded p-1 text-red-500" onClick={logout}>
-          <LogOut/>
+          <LogOut />
         </button>
       </div>
     </div>
-  )
+  );
 }

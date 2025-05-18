@@ -1,48 +1,21 @@
 import { Footer } from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { motion } from "framer-motion";
-import useAddPesanan from "../stores/useAddPesanan";
-export default Pesanan;
+import { useNavigate } from "react-router-dom";
+import { FORMORDER_PAGE } from "../routes/routeConstant";
 
-function Pesanan() {
+export default function Pesanan() {
+  const navigate = useNavigate();
 
-    const { addPesanan, loading } = useAddPesanan();
+  const handleOrderClick = () => {
+    navigate(FORMORDER_PAGE);
+  };
 
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const formData = new FormData(e.target);
-      const data = {
-        nama_ps: formData.get("nama_ps"),
-        alamat_ps: formData.get("alamat_ps"),
-        email: formData.get("email"),
-        jlayanan_ps: formData.get("jlayanan_ps"),
-        status_pesan: "pending",
-      };
-    
-      if (!data.jlayanan_ps) {
-        alert("Pilih layanan yang diinginkan.");
-        return;
-      }
-    
-      const confirm = window.confirm(
-        "Data ini akan dikirim langsung kepada admin. Apakah Anda ingin melanjutkan?"
-      );
-    
-      if (confirm) {
-        await addPesanan(data); 
-        form.reset();
-      } else {
-        alert("Pengiriman dibatalkan."); 
-      }
-    };
-
-
-    return (
-      <div className="max-w-7xl w-full py-3 flex flex-col gap-1 min-h-dvh">
-        <Navbar />
-        <motion.main
-          className="flex flex-col gap-1"
+  return (
+    <div className="max-w-7xl w-full py-3 px-3 flex flex-col gap-3 min-h-dvh">
+      <Navbar />
+              <motion.main
+          className="flex flex-col md:gap-3 gap-2"
           initial={{ opacity: 0 }} // Opacity awal
           animate={{ opacity: 1 }} // Opacity saat animasi
           exit={{ opacity: 0 }} // Opacity saat keluar
@@ -74,7 +47,7 @@ function Pesanan() {
                     <li>Konsultasi Awal</li>
                   </ul>
                   <p className="text-[#5f5f5f]">
-                    Setelah pengajuan, nantinya anda akan dihubungi melalui email untuk mendiskusikan kebutuhan anda.
+                    Setelah pengajuan, nantinya anda akan dihubungi melalui nomor telepon untuk mendiskusikan kebutuhan anda.
                   </p>
                 </div>
                 <div>
@@ -111,78 +84,21 @@ function Pesanan() {
                 </div>
               </div>
           </section>
-          <section className="md:flex w-full h-fit" id="form">
-            <div className="image2 bg-center rounded-3xl bg-cover md:h-auto h-56 w-full"></div>
-            <div className="w-full p-11 rounded-3xl h-fit flex flex-col gap-2 bg-[#f8f8f8]">
-              <h1 className="text-2xl font-medium">Form Pengajuan</h1>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label className="block" htmlFor="nama_ps">Nama</label>
-                  <input
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                    type="text"
-                    id="nama_ps"
-                    name="nama_ps"
-                    placeholder="Masukkan nama anda"
-                    required
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block" htmlFor="alamat_ps">Alamat</label>
-                  <input
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                    type="text"
-                    id="alamat_ps"
-                    name="alamat_ps"
-                    placeholder="Masukkan alamat anda"
-                    required
-                  />
-                </div>
-
-                <div className="mb-4">
-                  <label className="block" htmlFor="email">Email</label>
-                  <input
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Masukkan Email anda"
-                    required
-                  />
-                  <p className="text-sm mt-1 text-[#5f5f5f]">Nanti anda akan dihubungi melalui email ini</p>
-                </div>
-
-                <div className="mb-4">
-                  <label className="block" htmlFor="jlayanan_ps">Layanan</label>
-                  <select
-                    className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-                    id="jlayanan_ps" name="jlayanan_ps"
-                  >
-                    <option  value="" disabled selected>Pilih layanan yang anda inginkan</option>
-                    <option value="konstruksi">Konstruksi</option>
-                    <option value="arsitektur">Arsitektur</option>
-                  </select>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className={`w-full text-white py-2 rounded-md ${
-                    loading
-                      ? "bg-gray-400 cursor-not-allowed"
-                      : "bg-[#1f1f1f] hover-bright"
-                  }`}
-                >
-                  {loading ? "Mengirim..." : "Kirim"}
-                </button>
-              </form>
-            </div>
-          </section>
-        </motion.main>
-        <Footer />
-      </div>
-    );
-  }
-  
-
+        <section className="md:flex w-full gap-1 h-fit" id="form">
+          <div className="image2 bg-center rounded-3xl bg-cover md:h-auto h-56 w-full"></div>
+          <div className="w-full p-11 rounded-3xl h-fit flex flex-col gap-2 bg-[#f8f8f8]">
+            <h1 className="text-2xl font-medium">Buat Pesanan Anda</h1>
+            <p className="text-gray-600 mb-4">Klik tombol di bawah untuk memulai pengajuan proyek Anda.</p>
+            <button
+              onClick={handleOrderClick}
+              className="w-full bg-[#1f1f1f] text-white py-2 rounded-md hover-bright"
+            >
+              Mulai Pemesanan
+            </button>
+          </div>
+        </section>
+      </motion.main>
+      <Footer />
+    </div>
+  );
+}

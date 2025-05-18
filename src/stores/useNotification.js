@@ -38,7 +38,7 @@ const useNotification = create((set, get) => ({
       set((state) => ({
         notifications: [notification, ...state.notifications],
       }));
-      toast.success(message, { position: 'top-right' });
+      console.log(message);
       return { success, message, notification };
     } catch (error) {
       const message = getErrorMessage(error);
@@ -73,7 +73,6 @@ const useNotification = create((set, get) => ({
       set((state) => ({
         notifications: state.notifications.filter((n) => n.id !== id),
       }));
-      toast.success(message, { position: 'top-right' });
       return { success, message };
     } catch (error) {
       const message = getErrorMessage(error);

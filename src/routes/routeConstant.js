@@ -6,6 +6,7 @@ import Detail from '../pages/Detail';
 import Lokasi from '../pages/Lokasi';
 import Costumer from '../pages/customer/Page';
 import Pesanan from '../pages/Pesanan';
+import OrderForm from '../pages/orders/Page';
 import Login from '../pages/Auth';
 
 export const HOME_PAGE = '/';
@@ -15,6 +16,7 @@ export const DETAIl_PAGE = '/detail/:id';
 export const BLOG_PAGE = '/blog';
 export const LOKASI_PAGE = '/lokasi';
 export const PESANAN_PAGE = '/pesanan';
+export const FORMORDER_PAGE = '/form-pengajuan';
 export const LOGIN_PAGE = '/auth';
 
 export const routes = createBrowserRouter(
@@ -50,6 +52,10 @@ export const routes = createBrowserRouter(
     {
       path: CUSTOMER_PAGE,
       Component: Costumer,
+    },
+    {
+      path: FORMORDER_PAGE,
+      Component: OrderForm,
     },
   ],
   {

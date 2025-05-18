@@ -19,9 +19,13 @@ function Blog() {
 
     useEffect(() => {
       if (projek) {
-        const filtered = projek.filter(
-          (item) => !selectedType || item.jenis_layanan === selectedType
-        );
+        const filtered = projek
+          .filter((item) => !selectedType || item.jenis_layanan === selectedType)
+          .sort((a, b) => {
+            const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
+            const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
+            return dateB - dateA; // Urutkan dari terbaru ke terlama
+          });
         setFilteredProjek(filtered);
       }
     }, [projek, selectedType]);
@@ -29,10 +33,10 @@ function Blog() {
     const visibleProjek = filteredProjek.slice(0, visibleCount);
   
     return (
-      <div className="max-w-7xl w-full py-3 flex flex-col gap-1 min-h-dvh">
+      <div className="max-w-7xl px-2 w-full py-3 flex flex-col gap-1 min-h-dvh">
         <Navbar />
         <motion.main
-          className="flex flex-col gap-1"
+          className="flex flex-col md:gap-3 gap-2"
           initial={{ opacity: 0 }} 
           animate={{ opacity: 1 }} 
           exit={{ opacity: 0 }} 

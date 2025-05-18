@@ -5,10 +5,10 @@ export default Home;
 
 function Home(){
   return (
-    <div className="max-w-7xl w-full py-3 gap-1 flex flex-col">
+    <div className="max-w-7xl w-full py-3 px-2 gap-1 flex flex-col">
       <Navbar/>
       <motion.main 
-        className="flex flex-col gap-1"
+        className="flex flex-col md:gap-3 gap-2"
         initial={{ opacity: 0 }} // Opacity awal
         animate={{ opacity: 1 }} // Opacity saat animasi
         exit={{ opacity: 0 }} // Opacity saat keluar
@@ -56,7 +56,7 @@ function Home(){
             </article>
           </div>
         </section>
-        <section className="md:flex w-full">
+        <section className="md:flex-row flex-col flex w-full gap-1">
           <div className="image2 bg-center rounded-3xl bg-cover w-full md:h-80 h-56"></div>
           <div className="w-full p-11 rounded-3xl h-80 flex flex-col gap-2 bg-[#f8f8f8]">
             <h1 className="text-2xl font-medium">Visi Kami</h1>

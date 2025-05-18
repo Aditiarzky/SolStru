@@ -27,23 +27,48 @@ import useNotification from "../../stores/useNotification";
 import ProtectedRoute from "../../components/layouts/ProtectedRoute";
 import { toast } from "react-toastify";
 
+// Asumsi: Hook untuk mengambil data pengguna berdasarkan uid
+import useUser from "../../stores/useUser";
+
 export function OrderManagement() {
   const { pesanan, loading: loadingPesanan, delPesanan, fetchPesanan } = usePesanan();
   const { editPesanan, loading: loadingAction } = useAddPesanan();
   const { addNotification } = useNotification();
+  const { fetchUserById } = useUser(); // Hook untuk mengambil data pengguna
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderDetailsOpen, setOrderDetailsOpen] = useState(false);
   const [approvingId, setApprovingId] = useState(null);
   const [rejectingId, setRejectingId] = useState(null);
   const [deletingId, setDeletingId] = useState(null);
+  const [userData, setUserData] = useState({ name: "Memuat...", telepon: "Memuat..." });
 
   // Ambil data pesanan saat komponen dimuat
   useEffect(() => {
     fetchPesanan();
   }, [fetchPesanan]);
 
-  // Urutkan pesanan berdasarkan created_at (terbaru ke terlama)
-  const sortedPesanan = [...pesanan].sort((a, b) => {
+  // Ambil data pengguna saat selectedOrder berubah
+  useEffect(() => {
+    if (selectedOrder?.uid) {
+      const loadUserData = async () => {
+        try {
+          const user = await fetchUserById(selectedOrder.uid);
+          setUserData({
+            name: user?.name || "Tidak tersedia",
+            telepon: user?.telepon || "Tidak tersedia",
+          });
+        } catch (error) {
+          console.error("Error fetching user data:", error);
+          setUserData({ name: "Gagal memuat", telepon: "Gagal memuat" });
+        }
+      };
+      loadUserData();
+    }
+  }, [selectedOrder, fetchUserById]);
+
+  // Filter pesanan: kecualikan status "batal" dan urutkan berdasarkan created_at
+  const filteredPesanan = pesanan.filter((order) => order.status_pesan !== "batal");
+  const sortedPesanan = [...filteredPesanan].sort((a, b) => {
     const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
     const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
     return dateB - dateA; // Urutan menurun (terbaru ke terlama)
@@ -55,7 +80,7 @@ export function OrderManagement() {
   };
 
   const handleAction = async (id, action, status = null) => {
-    const pesananToUpdate = pesanan.find((p) => p.psid === id);
+    const pesananToUpdate = filteredPesanan.find((p) => p.psid === id);
 
     if (!pesananToUpdate) {
       toast.error("Pesanan tidak ditemukan.");
@@ -80,7 +105,9 @@ export function OrderManagement() {
         const notification = {
           uid: pesananToUpdate.uid,
           judul: action === "approve" ? "Pesanan Disetujui" : "Pesanan Ditolak",
-          pesan: `Pesanan ${pesananToUpdate.nama_ps} telah ${action === "approve" ? "disetujui" : "ditolak"}. ${action === "approve"&&"Kami akan segera menghubungi anda lewat nomor telepon anda."}`,
+          pesan: `Pesanan ${pesananToUpdate.nama_ps} telah ${
+            action === "approve" ? "disetujui" : "ditolak"
+          }. ${action === "approve" ? "Kami akan segera menghubungi anda lewat nomor telepon anda." : ""}`,
           status_ntf: action === "approve" ? "disetujui" : "ditolak",
         };
         try {
@@ -95,7 +122,9 @@ export function OrderManagement() {
       setOrderDetailsOpen(false);
     } catch (error) {
       console.error(`Error ${action} order:`, error);
-      toast.error(`Gagal ${action === "delete" ? "menghapus" : action === "approve" ? "menyetujui" : "menolak"} pesanan.`);
+      toast.error(
+        `Gagal ${action === "delete" ? "menghapus" : action === "approve" ? "menyetujui" : "menolak"} pesanan.`
+      );
     } finally {
       if (action === "approve") setApprovingId(null);
       else if (action === "reject") setRejectingId(null);
@@ -136,7 +165,7 @@ export function OrderManagement() {
               </TabsTrigger>
               <TabsTrigger value="ditolak">
                 <XCircle className="h-4" />
-                <p className="sm:block hidden">Ditolak/Batal</p>
+                <p className="sm:block hidden">Ditolak</p>
               </TabsTrigger>
             </TabsList>
 
@@ -199,11 +228,11 @@ export function OrderManagement() {
             </TabsContent>
 
             <TabsContent value="ditolak" className="space-y-4">
-              {sortedPesanan.filter((o) => o.status_pesan === "ditolak" || o.status_pesan === "batal").length === 0 ? (
-                <p className="text-center text-muted-foreground">Tidak ada pemesanan ditolak atau batal.</p>
+              {sortedPesanan.filter((o) => o.status_pesan === "ditolak").length === 0 ? (
+                <p className="text-center text-muted-foreground">Tidak ada pemesanan ditolak.</p>
               ) : (
                 sortedPesanan
-                  .filter((o) => o.status_pesan === "ditolak" || o.status_pesan === "batal")
+                  .filter((o) => o.status_pesan === "ditolak")
                   .map((order) => (
                     <OrderCard
                       key={order.psid}
@@ -244,7 +273,7 @@ export function OrderManagement() {
                     </div>
                     <div>
                       <span className="font-medium">Ukuran:</span>
-                      <p>{selectedOrder.ukuran_ps} unit</p>
+                      <p>{selectedOrder.ukuran_ps} m²</p>
                     </div>
                     <div>
                       <span className="font-medium">Tanggal Mulai:</span>
@@ -278,6 +307,14 @@ export function OrderManagement() {
                     <div>
                       <span className="font-medium">ID Pengguna:</span>
                       <p>{selectedOrder.uid}</p>
+                    </div>
+                    <div>
+                      <span className="font-medium">Nama Pengguna:</span>
+                      <p>{userData.name}</p>
+                    </div>
+                    <div>
+                      <span className="font-medium">Telepon:</span>
+                      <p>{userData.telepon}</p>
                     </div>
                     <div>
                       <span className="font-medium">Terakhir Diubah:</span>
@@ -410,7 +447,6 @@ function StatusBadge({ status }) {
       icon = <CheckCircle className="h-3 w-3 mr-1 text-green-500" />;
       break;
     case "ditolak":
-    case "batal":
       variant = "destructive";
       icon = <XCircle className="h-3 w-3 mr-1 text-white" />;
       break;
@@ -420,13 +456,7 @@ function StatusBadge({ status }) {
     <Badge variant={variant} className="flex items-center">
       {icon}
       <p className="md:block hidden">
-        {status === "ditunda"
-          ? "Ditunda"
-          : status === "disetujui"
-          ? "Disetujui"
-          : status === "ditolak"
-          ? "Ditolak"
-          : "Batal"}
+        {status === "ditunda" ? "Ditunda" : status === "disetujui" ? "Disetujui" : "Ditolak"}
       </p>
     </Badge>
   );

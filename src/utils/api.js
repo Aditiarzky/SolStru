@@ -1,8 +1,8 @@
 import axios from 'axios';
 import getErrorMessage from './error';
 
-// const baseUrl = 'https://sol-stru-server.vercel.app';
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'https://sol-stru-server.vercel.app';
+// const baseUrl = 'http://localhost:3000';
 
 const api = axios.create({
   baseURL: baseUrl,

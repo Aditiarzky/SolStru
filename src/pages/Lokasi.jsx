@@ -5,10 +5,10 @@ export default Lokasi;
 
 function Lokasi() {
   return (
-    <div className="max-w-7xl w-full py-3 flex flex-col gap-1 min-h-dvh">
+    <div className="max-w-7xl w-full py-3 px-2 flex flex-col gap-1 min-h-dvh">
       <Navbar />
       <motion.main
-        className="flex flex-col gap-1"
+        className="flex flex-col md:gap-3 gap-2"
         initial={{ opacity: 0 }} // Opacity awal
         animate={{ opacity: 1 }} // Opacity saat animasi
         exit={{ opacity: 0 }} // Opacity saat keluar

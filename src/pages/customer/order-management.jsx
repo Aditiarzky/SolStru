@@ -23,24 +23,22 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../components/ui/ta
 import { formatDate, formatShortDate } from "../../utils/format";
 import usePesanan from "../../stores/usePesanan";
 import useAddPesanan from "../../stores/useAddPesanan";
-import useAuth from "../../stores/useAuth"; // Impor useAuth
+import useAuth from "../../stores/useAuth";
 import ProtectedRoute from "../../components/layouts/ProtectedRoute";
 import { toast } from "react-toastify";
 
 export function OrderManagement() {
   const { pesanan, loading: loadingPesanan, fetchPesanan } = usePesanan();
   const { editPesanan, loading: loadingCancel } = useAddPesanan();
-  const { dataUser } = useAuth(); // Dapatkan dataUser dari useAuth
+  const { dataUser } = useAuth();
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderDetailsOpen, setOrderDetailsOpen] = useState(false);
   const [cancelingId, setCancelingId] = useState(null);
 
-  // Ambil data pesanan saat komponen dimuat
   useEffect(() => {
     fetchPesanan();
   }, [fetchPesanan]);
 
-  // Filter pesanan berdasarkan pesanan.uid === dataUser.id
   const filteredPesanan = dataUser?.id
     ? pesanan.filter((order) => order.uid === dataUser.id)
     : [];
@@ -51,7 +49,7 @@ export function OrderManagement() {
   };
 
   const handleCancel = async (id) => {
-    setCancelingId(id); // Gunakan juga setCancelingId sebagai indikator loading
+    setCancelingId(id);
     const pesananToUpdate = filteredPesanan.find((p) => p.psid === id);
 
     if (!pesananToUpdate) {
@@ -211,7 +209,7 @@ export function OrderManagement() {
                     </div>
                     <div>
                       <span className="font-medium">Ukuran:</span>
-                      <p>{selectedOrder.ukuran_ps} unit</p>
+                      <p>{selectedOrder.ukuran_ps} m²</p>
                     </div>
                     <div>
                       <span className="font-medium">Tanggal Mulai:</span>
@@ -245,6 +243,14 @@ export function OrderManagement() {
                     <div>
                       <span className="font-medium">ID Pengguna:</span>
                       <p>{selectedOrder.uid}</p>
+                    </div>
+                    <div>
+                      <span className="font-medium">Nama Pengguna:</span>
+                      <p>{dataUser?.name || "Tidak tersedia"}</p>
+                    </div>
+                    <div>
+                      <span className="font-medium">Telepon:</span>
+                      <p>{dataUser?.telepon || "Tidak tersedia"}</p>
                     </div>
                     <div>
                       <span className="font-medium">Terakhir Diubah:</span>
@@ -306,7 +312,7 @@ function OrderCard({ order, onViewDetails, onCancel, cancelingId }) {
                   <span className="sr-only">Opsi lainnya</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align>
                 <DropdownMenuLabel>Aksi</DropdownMenuLabel>
                 <DropdownMenuItem onClick={() => onViewDetails(order)}>
                   Lihat Detail

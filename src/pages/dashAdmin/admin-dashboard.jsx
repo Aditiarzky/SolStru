@@ -10,7 +10,7 @@ import { OrderManagement } from "./order-management"
 import { CustomerProfile } from "./admin-profile"
 import useAuth from "../../stores/useAuth"
 import useNotification from "../../stores/useNotification"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { LOGIN_PAGE } from "../../routes/routeConstant"
 import ProjectManagement from "../../components/ProjectManagement"
 import usePesanan from "../../stores/usePesanan"
@@ -27,9 +27,9 @@ export function AdminDashboard() {
     <div className="min-h-screen w-full bg-background">
       {/* Mobile Header */}
       <div className="flex items-center justify-between p-4 border-b md:hidden">
-        <div className="flex items-center gap-2">
-          <Package className="h-5 w-5" />
-          <span className="font-semibold">Dashboard</span>
+        <div className="flex flex-col items-start">
+         <Link to="/"><div className='logo-app h-9 w-24'></div></Link>
+          <span className="font-light text-sm font-serif">Dashboard</span>
         </div>
         <Sheet>
           <SheetTrigger asChild>
@@ -48,9 +48,9 @@ export function AdminDashboard() {
         {/* Desktop Sidebar */}
         <aside className="hidden md:flex w-64 flex-col border-r h-screen sticky top-0">
           <div className="p-4 border-b">
-            <div className="flex items-center gap-2">
-              <Package className="h-5 w-5" />
-              <span className="font-semibold">Dashboard</span>
+            <div className="flex flex-col items-start">
+             <Link to="/"><div className='logo-app h-9 w-24'></div></Link>
+              <span className="font-light text-sm font-serif">Dashboard</span>
             </div>
           </div>
           <nav className="flex-1 p-4 space-y-2">
@@ -137,9 +137,9 @@ function MobileSidebar({ activeTab, setActiveTab }) {
   return (
     <div className="flex flex-col h-full">
       <div className="p-4 border-b">
-        <div className="flex items-center gap-2">
-          <Package className="h-5 w-5" />
-          <span className="font-semibold">Dashboard</span>
+        <div className="flex flex-col items-start">
+          <Link to="/"><div className='logo-app h-9 w-24'></div></Link>
+          <span className="font-light text-sm font-serif">Dashboard</span>
         </div>
       </div>
       <nav className="flex-1 p-4 space-y-2">

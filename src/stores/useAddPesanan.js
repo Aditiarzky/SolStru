@@ -7,12 +7,13 @@ const useAddPesanan = create((set) => ({
   loading: false,
   success: false,
   error: null,
+  orderCreated: null,
   addPesanan: async (pesananData) => {
     set({ loading: true, success: false, error: null });
     try {
-      const { success, message } = await addPesanan(pesananData);
+      const { success, message, data } = await addPesanan(pesananData);
       if (success) {
-        set({ success: true, error: null });
+        set({ success: true, error: null, orderCreated: data });
         toast.success('Berhasil mengirim pesanan'); 
       } else {
         set({ success: false, error: message });

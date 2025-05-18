@@ -67,7 +67,7 @@ const useAuth = create((set) => ({
       const { success, message } = await register(registerData);
       if (success) {
         set({ success: true, error: null });
-        toast.success('Berhasil menambahkan projek'); 
+        toast.success('Berhasil mendaftar!'); 
       } else {
         set({ success: false, error: message });
         toast.error(`Gagal: ${message}`);
@@ -90,7 +90,8 @@ const useAuth = create((set) => ({
       return { message, success };
     } catch (error) {
       const message = getErrorMessage(error);
-      toast.error(message, { position: 'top-right' });
+      console.log(message);
+      toast.warning("Login terlebih dahulu!", { position: 'top-right' });
       return { success: false, message };
     } finally {
       set(() => ({ loading: false }));
@@ -121,7 +122,6 @@ const useAuth = create((set) => ({
       return { success: true, data: response.data };
     } catch (error) {
       const message = getErrorMessage(error);
-      toast.error(message, { position: 'top-right' });
       return { success: false, message };
     } finally {
       set(() => ({ loading: false }));

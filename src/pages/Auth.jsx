@@ -91,8 +91,8 @@ export default function AuthForm() {
   };
 
   return (
-    <main className="flex min-h-screen w-full flex-col items-center justify-center p-24">
-      <Card className="w-full max-w-md mx-auto">
+    <main className="p-2 md:p-4 w-full flex justify-center items-center">
+      <Card className="w-full md:max-w-md">
         <Tabs defaultValue="login" value={tab} onValueChange={setTab} className="w-full">
           <CardHeader>
             <div className="flex items-center justify-between">

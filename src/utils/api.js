@@ -74,6 +74,16 @@ async function getUserAuth() {
     return { message, success: false };
   }
 }
+
+async function getUserById(id) {
+  try {
+    const response = await api.get(`${baseUrl}/api/users/${id}`);
+    return response.data;
+  } catch (error) {
+    const message = getErrorMessage(error);
+    return { message, success: false };
+  }
+}
   
 async function addProjek(addProjekData) {
   try {
@@ -349,6 +359,7 @@ export{
     getRefreshToken,
     getStatusAuth,
     getUserAuth,
+    getUserById,
     getAllNotification,
     createNotification,
     markNotificationAsRead,

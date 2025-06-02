@@ -34,7 +34,7 @@ export function OrderManagement() {
   const { pesanan, loading: loadingPesanan, delPesanan, fetchPesanan } = usePesanan();
   const { editPesanan, loading: loadingAction } = useAddPesanan();
   const { addNotification } = useNotification();
-  const { fetchUserById } = useUser(); // Hook untuk mengambil data pengguna
+  const { fetchUserById} = useUser(); // Hook untuk mengambil data pengguna
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [orderDetailsOpen, setOrderDetailsOpen] = useState(false);
   const [approvingId, setApprovingId] = useState(null);
@@ -52,10 +52,10 @@ export function OrderManagement() {
     if (selectedOrder?.uid) {
       const loadUserData = async () => {
         try {
-          const user = await fetchUserById(selectedOrder.uid);
+          const result = await fetchUserById(selectedOrder.uid);
           setUserData({
-            name: user?.name || "Tidak tersedia",
-            telepon: user?.telepon || "Tidak tersedia",
+            name: result.data.name || "Tidak tersedia",
+            telepon: result.data.telepon || "Tidak tersedia",
           });
         } catch (error) {
           console.error("Error fetching user data:", error);
